@@ -1,4 +1,4 @@
-package org.example;
+package Cgm.Proyecto;
 
 public class Main {
     public static void main(String[] args) {
