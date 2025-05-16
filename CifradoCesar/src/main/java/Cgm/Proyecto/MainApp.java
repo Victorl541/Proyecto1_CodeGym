@@ -9,12 +9,9 @@ public class MainApp {
         Cipher cipher = new Cipher(ALPHABET);
         FileManager fileManager = new FileManager();
         Validator validator = new Validator();
+        BruteForce bruteForce = new BruteForce(cipher, ALPHABET);
 
-
-
-
-
-        Menu menu = new Menu(cipher, fileManager, validator, ALPHABET);
+        Menu menu = new Menu(cipher, fileManager, validator, ALPHABET, bruteForce);
         menu.showmenu();
 
     }

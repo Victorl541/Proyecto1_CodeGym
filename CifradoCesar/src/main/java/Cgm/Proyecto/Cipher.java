@@ -38,7 +38,8 @@ public class Cipher {
             char currentChar = encryptedText.charAt(i);
             int index = ALPHABET.indexOf(currentChar);
 
-            if (index == -1) {
+            if (ALPHABET.indexOf(currentChar) == -1) {
+                System.out.println("Carácter no permitido detectado: [" + currentChar + "] en posición " + i);
                 throw new IllegalArgumentException("Carácter no permitido: " + currentChar);
             }
             int shiftedIndex = (index - key) % ALPHABET.length();

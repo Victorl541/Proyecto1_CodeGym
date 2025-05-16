@@ -10,12 +10,14 @@ public class Menu {
     private final Cipher cipher;
     private final FileManager fileManager;
     private final Validator validator;
+    private final BruteForce bruteForce;
 
-    public Menu(Cipher cipher, FileManager fileManager, Validator validator, String ALPHABET){
+    public Menu(Cipher cipher, FileManager fileManager, Validator validator, String ALPHABET, BruteForce bruteForce){
         this.ALPHABET = ALPHABET;
         this.cipher = cipher;
         this.fileManager = fileManager;
         this.validator = validator;
+        this.bruteForce = bruteForce;
     }
 
 
@@ -23,12 +25,14 @@ public class Menu {
         boolean exit = true;
 
         while (exit) {
-            System.out.println("\n******************** MENÚ ********************");
-            System.out.println("*****1.Cifrar texto rapido por consola***");
-            System.out.println("*****2.Decifrar texto rapido por consola***");
-            System.out.println("*****3.Cifrar texto en archivo***");
-            System.out.println("*****4.Decifrar texto en archivo***");
-            System.out.println("*****7.Salir*****");
+            System.out.println("\n********************* MENÚ *********************");
+            System.out.println("*****  1.Cifrar texto rapido por consola    ****");
+            System.out.println("*****  2.Decifrar texto rapido por consola  ****");
+            System.out.println("*****  3.Cifrar texto en archivo            ****");
+            System.out.println("*****  4.Decifrar texto en archivo          ****");
+            System.out.println("*****  5.Decifrar por Fuerza bruta (hack)   ****");
+            System.out.println("*****  0.Salir                              ****");
+            System.out.println("************************************************");
             System.out.print("Elige una opción: ");
             int option = scanner.nextInt();
             scanner.nextLine();
@@ -43,9 +47,12 @@ public class Menu {
                 case 3:
                     encryptFile();
                     break;
-//                case 4:
-//                    decryptFile();
-//                    break;
+                case 4:
+                    decryptFile();
+                    break;
+                case 5:
+                    decryptByBruteForce();
+                    break;
                 case 7:
                     exit = false;
                     System.out.println("Saliendo...");
@@ -124,10 +131,46 @@ public class Menu {
         return key;
     }
 
-//    private void decryptFile(){
-//
-//    }
+    private void decryptFile(){
+        try {
+            System.out.print("\n==== Descifrado de Archivo ====");
+            String inputPath = promptPath("\nIngrese la ruta del archivo a descifrar");
+            String outputPath = promptOutputPath("Ingrese la ruta del archivo de salida para el texto descifrado");
+            int key = promptKey();
 
+            String content = FileManager.readFile(inputPath);
+            String decrypted = cipher.decrypt(content, key);
+
+            FileManager.writeFile(decrypted, outputPath);
+            System.out.println("\n==== Archivo descifrado correctamente! ====");
+
+        } catch (IOException e) {
+            System.out.println("\nError al procesar el archivo: " + e.getMessage());
+        }
+    }
+
+    private String promptOutputPath(String message){
+        System.out.println(message);
+        return scanner.nextLine().trim();
+    }
+
+    private void decryptByBruteForce(){
+        try {
+            System.out.println("\n==== Descifrado por Fuerza Bruta ====");
+            String inputPath = promptPath("\nIngrese la ruta del archivo cifrado:");
+            String dictPath = promptPath("Ingrese la ruta del archivo diccionario (una palabra por línea):");
+            String outputPath = promptOutputPath("Ingrese la ruta del archivo de salida para el texto descifrado:");
+
+            String encryptedText = FileManager.readFile(inputPath);
+            String bestGuess = bruteForce.decryptByBruteForce(encryptedText, dictPath);
+
+            FileManager.writeFile(bestGuess, outputPath);
+            System.out.println("\n==== Descifrado completado con éxito ====");
+
+        } catch (IOException e) {
+            System.out.println("\nError durante el descifrado por fuerza bruta: " + e.getMessage());
+        }
+    }
 
 
 }
