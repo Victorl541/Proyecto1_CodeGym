@@ -2,7 +2,7 @@ package Cgm.Proyecto;
 
 public class Cipher {
 
-    private String ALPHABET;
+    private final String ALPHABET;
 
     public Cipher(String ALPHABET) {
         this.ALPHABET = ALPHABET;
