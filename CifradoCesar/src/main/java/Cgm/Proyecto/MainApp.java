@@ -7,15 +7,15 @@ public class MainApp {
         final String ALPHABET = "abcdefghijklmnopqrstuvwxyz 1234567890?,.:-'!";
 
         Cipher cipher = new Cipher(ALPHABET);
-        Menu menu = new Menu(cipher);
+        FileManager fileManager = new FileManager();
+        Validator validator = new Validator();
 
 
 
 
 
+        Menu menu = new Menu(cipher, fileManager, validator, ALPHABET);
         menu.showmenu();
-
-
 
     }
 }

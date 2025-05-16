@@ -12,7 +12,7 @@ public class Cipher {
         if (key < 1) {
             return "La clave debe ser un número positivo.";
         }
-
+        text = text.toLowerCase();
         StringBuilder encryptedText = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {
@@ -31,7 +31,7 @@ public class Cipher {
     }
 
     public String decrypt (String encryptedText, int key){
-
+        encryptedText = encryptedText.toLowerCase();
         StringBuilder decryptedText = new StringBuilder();
 
         for (int i = 0; i < encryptedText.length(); i++) {
